@@ -1,4 +1,4 @@
-
+import sys,os
 import cv2
 import numpy as np
 def plastic_detection(img_file_path, tolerance):
@@ -18,4 +18,4 @@ def plastic_detection(img_file_path, tolerance):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-plastic_detection('/green.jpg', 3)
+plastic_detection(sys.path.append(os.path.realpath('Images/green.png')), 3)
