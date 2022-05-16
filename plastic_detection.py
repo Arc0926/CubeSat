@@ -2,10 +2,13 @@ import sys,os
 import cv2
 import numpy as np
 def plastic_detection(img_file_path, tolerance):
-    dir = os.path.dirname(img_file_path)
-    filename = os.path.join(dir, img_file_path)
+    absolutepath = os.path.abspath(__file__)
+    parentDirectory = os.path.dirname(absolutepath)
+    print(parentDirectory)
+    filename = os.path.join(parentDirectory, img_file_path).replace("\\","/")
     # Reading the image
-    img = cv2.imread(img_file_path)
+    print(filename)
+    img = cv2.imread(filename)
 
     # convert to hsv colorspace
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -20,4 +23,5 @@ def plastic_detection(img_file_path, tolerance):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+#plastic_detection('C:/Users/Arcan/Documents/CubeSat/Images/green.png', 3)
 plastic_detection('Images/green.png', 3)
