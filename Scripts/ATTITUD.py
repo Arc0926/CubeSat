@@ -24,8 +24,10 @@ def pitch_am(accelX,accelY,accelZ):
     return (180/np.pi) * np.arctan2(accelX, np.sqrt(accelY * accelY + accelZ * accelZ))
 
 def yaw_am(accelX,accelY,accelZ,magX,magY,magZ):
-    mag_x = magX * cos(pitch) + magY * sin(roll) * sin(pitch) + magZ * cos(roll) * sin(pitch)
-    mag_y = magY * cos(roll) - magZ * sin(roll)
+    pitch = pitch_am(accelX, accelY, accelZ)
+    roll = roll_am(accelX, accelY, accelZ)
+    mag_x = magX * np.cos(pitch) + magY * np.sin(roll) * np.sin(pitch) + magZ * np.cos(roll) * np.sin(pitch)
+    mag_y = magY * np.cos(roll) - magZ * np.sin(roll)
 
     return (180/np.pi)*np.arctan2(-mag_y, mag_x)
 
@@ -44,13 +46,13 @@ def set_initial(mag_offset = [0,0,0]):
     print("Preparing to set initial angle. Please hold the IMU still.")
     time.sleep(3)
     print("Setting angle...")
-    accelX, accelY, accelZ = sensor1.accelerometer #m/s^2
-    magX, magY, magZ = sensor1.magnetometer #gauss
+    accelX, accelY, accelZ = sensor.acceleration #m/s^2
+    magX, magY, magZ = sensor.magnetic #gauss
     #Calibrate magnetometer readings. Defaults to zero until you
     #write the code
-    magX = magX - offset[0]
-    magY = magY - offset[1]
-    magZ = magZ - offset[2]
+    magX = magX - mag_offset[0]
+    magY = magY - mag_offset[1]
+    magZ = magZ - mag_offset[2]
     roll = roll_am(accelX, accelY,accelZ)
     pitch = pitch_am(accelX,accelY,accelZ)
     yaw = yaw_am(accelX,accelY,accelZ,magX,magY,magZ)
@@ -58,18 +60,32 @@ def set_initial(mag_offset = [0,0,0]):
     return [roll,pitch,yaw]
 
 def calibrate_mag():
-    #TODO: Set up lists, time, etc
+    offset = [0, 0, 0]
+    maxMagX = -sys.maxint - 1
+    maxMagZ = -sys.maxint - 1
+    maxMagZ = -sys.maxint - 1
+    minMagX = sys.maxint
+    minMagY = sys.maxint
+    minMagZ = sys.maxint
+    
+    
     print("Preparing to calibrate magnetometer. Please wave around.")
     #time.sleep(3)
     print("Calibrating...")
-    #TODO: Calculate calibration constants
+    t1 = time.time()
+    while(time.time() - t1 < 3):
+        magX, magY, magZ = sensor.magnetic
+        print(magX)
+        print(magY)
+        print(magZ)
+    
     print("Calibration complete.")
     return [0,0,0]
 
 def calibrate_gyro():
     #TODO
     print("Preparing to calibrate gyroscope. Put down the board and do not touch it.")
-    time.sleep(3)
+    
     print("Calibrating...")
     #TODO
     print("Calibration complete.")
