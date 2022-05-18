@@ -41,6 +41,7 @@ def pitch_gy(prev_angle, delT, gyro):
 def yaw_gy(prev_angle, delT, gyro):
     #TODO
     return yaw
+
 def set_initial(mag_offset = [0,0,0]):
     #Sets the initial position for plotting and gyro calculations.
     print("Preparing to set initial angle. Please hold the IMU still.")
@@ -51,7 +52,7 @@ def set_initial(mag_offset = [0,0,0]):
     #Calibrate magnetometer readings. Defaults to zero until you
     #write the code
     magX = magX - mag_offset[0]
-    magY = magY - mag_offset[1]
+    maagY = magY - mag_offset[1]
     magZ = magZ - mag_offset[2]
     roll = roll_am(accelX, accelY,accelZ)
     pitch = pitch_am(accelX,accelY,accelZ)
@@ -75,12 +76,32 @@ def calibrate_mag():
     t1 = time.time()
     while(time.time() - t1 < 3):
         magX, magY, magZ = sensor.magnetic
-        print(magX)
-        print(magY)
-        print(magZ)
+        #for x
+        if(magX > maxMagx):
+            maxMagX = magX
+
+        if(magX < minMagX):
+            minMagX = magX
+
+        #for y
+        if(magY > maxMagy):
+            maxMagY = magY
+
+        if(magY < minMagY):
+            minMagY = magY
+
+        #for z
+        if(magZ > maxMagz):
+            maxMagZ = magZ
+
+        if(magZ < minMagZ):
+            minMagZ = magZ
     
     print("Calibration complete.")
-    return [0,0,0]
+    
+    #Once sample done 
+    offset = [((maxMagX + minMagX)/2), ((maxMagY + minMagY)/2), ((maxMagZ + minMagZ)/2)
+    return offset
 
 def calibrate_gyro():
     #TODO
