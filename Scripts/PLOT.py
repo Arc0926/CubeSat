@@ -1,5 +1,4 @@
-import adafruit_fxos8700
-import adafruit_fxas21002c
+import adafruit_bno055
 import time
 import os
 import board
@@ -9,12 +8,11 @@ import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
 import sys
-from sensor_calc import *
+from ATTITUD import *
 
 
 i2c = busio.I2C(board.SCL, board.SDA)
-sensor1 = adafruit_fxos8700.FXOS8700(i2c)
-sensor2 = adafruit_fxas21002c.FXAS21002C(i2c)
+sensor = adafruit_bno055.BNO055_I2C(i2c)
 
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
