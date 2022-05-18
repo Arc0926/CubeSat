@@ -17,9 +17,12 @@ def get_file(client_sock, file_path, size = 1024):
     """
     absolutepath = os.path.abspath(__file__)
     parentDirectory = os.path.dirname(os.path.dirname(absolutepath))
+    print(parentDirectory)
     name = client_sock.recv(size)
-    relativePath = "/Images/" + name.decode('utf-8') + ".jpg"
-    fileName = os.path.join(parentDirectory, relativePath).replace("\\","/")
+    relativePath = ("/Images/" + name.decode('utf-8') + ".jpg").replace(":", " ")
+    print(relativePath)
+    fileName = (parentDirectory + relativePath).replace("\\","/")
+
     file = open(fileName, 'wb')
     packet = "1"
     print("entering packet loop")
