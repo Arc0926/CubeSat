@@ -30,13 +30,13 @@ def animate(i, xs, type,y1,y2,y3, mag_offset, gyro_offset, initial_angle):
         b = y2[-1]
         c = y3[-1]
         prev_ang = [a,b,c]
-    accelX, accelY, accelZ = sensor1.accelerometer #m/s^2
-    magX, magY, magZ = sensor1.magnetometer #gauss
+    accelX, accelY, accelZ = sensor.acceleration #m/s^2
+    magX, magY, magZ = sensor.magnetic #gauss
     #Calibrate magnetometer readings
     magX = magX - mag_offset[0]
     magY = magY - mag_offset[1]
     magZ = magZ - mag_offset[2]
-    gyroX, gyroY, gyroZ = sensor2.gyroscope #rad/s
+    gyroX, gyroY, gyroZ = sensor.gyro #rad/s
     gyroX = gyroX * (180/np.pi)- gyro_offset[0]
     gyroY = gyroY * (180/np.pi)- gyro_offset[1]
     gyroZ = gyroZ * (180/np.pi)- gyro_offset[2]
@@ -87,6 +87,7 @@ def plot_data(type = 'am'):
     mag_offset = calibrate_mag()
     #initial_angle = set_initial(mag_offset)
     gyro_offset = calibrate_gyro()
+    initial_angle = set_initial()
     ani = animation.FuncAnimation(fig, animate, fargs =(xs,type,y1,y2,y3,mag_offset,gyro_offset,initial_angle), interval = 1000)
     plt.show()
 
