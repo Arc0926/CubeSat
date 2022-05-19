@@ -2,7 +2,7 @@
 A simple Python script to receive messages from a client over
 Bluetooth using PyBluez (with Python 2).
 """
-
+import time
 from bluetooth import *
 
 hostMACAddress = '54:14:F3:B6:6E:B6' # The MAC address of a Bluetooth adapter on the server. The server might have multiple Bluetooth adapters.
@@ -17,11 +17,7 @@ def get_file(client_sock, file_path, size = 1024):
     """
     absolutepath = os.path.abspath(__file__)
     parentDirectory = os.path.dirname(os.path.dirname(absolutepath))
-    print(parentDirectory)
-    name = client_sock.recv(size)
-    relativePath = ("/Images/" + name.decode('utf-8') + ".jpg").replace(":", " ")
-    print(relativePath)
-    fileName = (parentDirectory + relativePath).replace("\\","/")
+    print("Connection made")
 
     file = open(fileName, 'wb')
     packet = "1"
@@ -34,14 +30,15 @@ def get_file(client_sock, file_path, size = 1024):
                 print("closing file")
                 file.close()
                 print("counter:", counter)
+            elif packet.decode('utf-8') == "Start file transfer.":
+                relativePath = ("/Images/Masks/" + time.ctime() + ".jpg")
+                print(relativePath)
+                fileName = (parentDirectory + relativePath).replace("\\","/")
+                file = open(fileName, 'wb')
         except:
-            print("writing jpg")
-            counter = counter + 1
             file.write(packet)
 
     isFileGot= True
-    file.close()
-    print ("File GOT")
 server_sock = BluetoothSocket(RFCOMM)
 server_sock.bind((hostMACAddress, port))
 server_sock.listen(backlog)
