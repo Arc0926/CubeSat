@@ -9,7 +9,7 @@ hostMACAddress = '54:14:F3:B6:6E:B6' # The MAC address of a Bluetooth adapter on
 port = 4
 backlog = 1
 size = 1024
-uuid = "94f39d29-7d6d-437d-973b-fba39e49d4ee"
+uuid = '94f39d29-7d6d-437d-973b-fba39e49d4ee'
 
 def get_file(client_sock, file_path, size = 1024):
     """
@@ -19,8 +19,7 @@ def get_file(client_sock, file_path, size = 1024):
     parentDirectory = os.path.dirname(os.path.dirname(absolutepath))
     print("Connection made")
 
-    file = open(fileName, 'wb')
-    packet = "1"
+    packet = 1
     print("entering packet loop")
     counter = 0
     while packet:
