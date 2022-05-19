@@ -8,7 +8,7 @@ import board
 import busio
 
 
-#board set up below needs to be updated
+#board set up 
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_bno055.BNO055_I2C(i2c)
 
