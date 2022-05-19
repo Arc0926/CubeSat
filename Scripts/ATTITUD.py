@@ -6,9 +6,10 @@ import time
 import os
 import board
 import busio
+import sys
 
 
-#board set up 
+#board set up below needs to be updated
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_bno055.BNO055_I2C(i2c)
 
@@ -62,36 +63,36 @@ def set_initial(mag_offset = [0,0,0]):
 
 def calibrate_mag():
     offset = [0, 0, 0]
-    maxMagX = -sys.maxint - 1
-    maxMagZ = -sys.maxint - 1
-    maxMagZ = -sys.maxint - 1
-    minMagX = sys.maxint
-    minMagY = sys.maxint
-    minMagZ = sys.maxint
+    maxMagX = -10000
+    maxMagY = -10000
+    maxMagZ = -10000
+    minMagX = 10000
+    minMagY = 10000
+    minMagZ = 10000
     
     
     print("Preparing to calibrate magnetometer. Please wave around.")
     #time.sleep(3)
     print("Calibrating...")
     t1 = time.time()
-    while(time.time() - t1 < 3):
+    while(time.time() - t1 < 10):
         magX, magY, magZ = sensor.magnetic
         #for x
-        if(magX > maxMagx):
+        if(magX > maxMagX):
             maxMagX = magX
 
         if(magX < minMagX):
             minMagX = magX
 
         #for y
-        if(magY > maxMagy):
+        if(magY > maxMagY):
             maxMagY = magY
 
         if(magY < minMagY):
             minMagY = magY
 
         #for z
-        if(magZ > maxMagz):
+        if(magZ > maxMagZ):
             maxMagZ = magZ
 
         if(magZ < minMagZ):
@@ -100,7 +101,7 @@ def calibrate_mag():
     print("Calibration complete.")
     
     #Once sample done 
-    offset = [((maxMagX + minMagX)/2), ((maxMagY + minMagY)/2), ((maxMagZ + minMagZ)/2)
+    offset = [((maxMagX + minMagX)/2), ((maxMagY + minMagY)/2), ((maxMagZ + minMagZ)/2)]
     return offset
 
 def calibrate_gyro():
