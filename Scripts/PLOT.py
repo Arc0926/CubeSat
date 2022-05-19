@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
-import sys
 from ATTITUD import *
 
 
@@ -87,7 +86,7 @@ def plot_data(type = 'am'):
     mag_offset = calibrate_mag()
     #initial_angle = set_initial(mag_offset)
     gyro_offset = calibrate_gyro()
-    initial_angle = set_initial()
+    initial_angle = set_initial(mag_offset)
     ani = animation.FuncAnimation(fig, animate, fargs =(xs,type,y1,y2,y3,mag_offset,gyro_offset,initial_angle), interval = 1000)
     plt.show()
 
