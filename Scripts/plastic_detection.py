@@ -2,7 +2,8 @@ import sys,os
 import cv2
 import numpy as np
 from PIL import Image, ImageEnhance
-def plastic_detection(img_file_path, tolerance):
+import time
+def plastic_detection(img_file_path):
     absolutepath = os.path.abspath(__file__)
     parentDirectory = os.path.dirname(os.path.dirname(absolutepath))
     fileName = os.path.join(parentDirectory, img_file_path).replace("\\","/")
@@ -24,7 +25,9 @@ def plastic_detection(img_file_path, tolerance):
     #mask = mask_g + mask_r + mask_b
     mask = cv2.bitwise_not(mask)
 
-    mask_path = parentDirectory.replace("\\", "/") + '/Images/Masks/mask.jpg'
+
+
+    mask_path = parentDirectory.replace("\\", "/") + '/Images/Masks/mask.jpg' % (t)
     cv2.imwrite(mask_path, mask)
     # Showing the output
     '''
@@ -34,4 +37,4 @@ def plastic_detection(img_file_path, tolerance):
     '''
 
 #plastic_detection('C:/Users/Arcan/Documents/CubeSat/Images/green.png', 3)
-plastic_detection('Images/demo2.jpg', 3)
+plastic_detection('Images/demo.jpg')
